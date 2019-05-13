@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'hacen_maghreb_ltregular';
+  src: url('../assets/fonts/Hacen\ Maghreb\ Lt.ttf') format('truetype');
+}
+
+body {
+  font-family: 'hacen_maghreb_ltregular', sans-serif !important;
+}
+
+.login-form {
+  height: 100vh;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.addPadding {
+  padding: 20px 0;
+}
+
+.middle {
+  text-align: center;
+  margin: 30px;
+}
