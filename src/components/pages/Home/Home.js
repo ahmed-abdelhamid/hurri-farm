@@ -6,48 +6,16 @@ import Card from '../../layouts/Card/Card';
 import ProfileSettings from './ProfileSettings';
 
 const Home = ({ usersCount, plantsCount, auth, counts }) => {
-  useEffect(() => {
-    const fetchData = () => {
-      usersCount();
-      plantsCount();
-      plantsCount(true);
-    };
-    fetchData();
-  }, []);
-
   return (
     <React.Fragment>
       <Container>
         <Grid>
           <Grid.Row columns={2}>
             <Grid.Column width={4}>
-              <Card header=" عدد المستخدمين" count={counts.usersCount} />
+              <Card header=" عدد المستخدمين" />
             </Grid.Column>
             <Grid.Column width={12}>
               <ProfileSettings adminData={auth} />
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row centered columns={3}>
-            <Grid.Column>
-              <Card
-                header="النباتات المدرسة"
-                count={counts.discoveredPlantsCount}
-              >
-                <Button as={Link} to="/plants/confirmed" primary>
-                  عرض
-                </Button>
-              </Card>
-            </Grid.Column>
-            <Grid.Column>
-              <Card
-                header="النباتات الغير المدرسة"
-                count={counts.undiscoveredPlantsCount}
-              >
-                <Button as={Link} to="/plants/unconfirmed" primary>
-                  عرض
-                </Button>
-              </Card>
             </Grid.Column>
           </Grid.Row>
         </Grid>

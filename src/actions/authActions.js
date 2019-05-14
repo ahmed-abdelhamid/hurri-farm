@@ -1,17 +1,16 @@
 import axios from 'axios';
+import { firebase } from '../firebase/firebase';
 import { LOGIN, LOGOUT, STORE_USER } from './types';
 
-export const storeUser = userData => ({ type: STORE_USER, payload: userData });
+export const storeUser = userId => ({ type: STORE_USER, payload: userId });
 
-export const login = (mobile, password) => async dispatch => {
+export const login = (email, password) => async dispatch => {
   try {
-    const response = await axios.post(
-      `${
-        process.env.REACT_APP_LOCAL_IP
-      }/account/accountlogin?mobile=${mobile}&password=${password}`
-    );
-    localStorage.setItem('adminPlantGateId', response.data.accountid);
-    dispatch({ type: LOGIN, payload: response.data });
+    const response = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
+    console.log(response);
+    dispatch({ type: LOGIN, payload: response.user.uid });
   } catch (e) {
     throw new Error('Login Failed');
   }
@@ -19,23 +18,23 @@ export const login = (mobile, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    localStorage.removeItem('adminPlantGateId');
+    await firebase.auth().signOut();
     dispatch({ type: LOGOUT });
   } catch (e) {}
 };
 
-export const editUserData = (
-  { username, password, mobile },
-  id
-) => async dispatch => {
-  try {
-    const response = await axios.get(
-      `${
-        process.env.REACT_APP_LOCAL_IP
-      }/account/editaccount?username=${username}&mobile=${mobile}&accountid=${id}${
-        password ? `&password=${password}` : ''
-      }`
-    );
-    dispatch({ type: STORE_USER, payload: response.data });
-  } catch (e) {}
-};
+// export const editUserData = (
+//   { username, password, mobile },
+//   id
+// ) => async dispatch => {
+//   try {
+//     const response = await axios.get(
+//       `${
+//         process.env.REACT_APP_LOCAL_IP
+//       }/account/editaccount?username=${username}&mobile=${mobile}&accountid=${id}${
+//         password ? `&password=${password}` : ''
+//       }`
+//     );
+//     dispatch({ type: STORE_USER, payload: response.data });
+//   } catch (e) {}
+// };

@@ -1,1 +1,1 @@
-export { login, logout, storeUser, editUserData } from './authActions';
+export { login, logout, storeUser } from './authActions';

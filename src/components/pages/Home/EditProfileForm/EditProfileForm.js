@@ -3,7 +3,7 @@ import { Field, reduxForm, submit, initialize } from 'redux-form';
 import { Modal, Form, Button } from 'semantic-ui-react';
 import InputField from '../../../layouts/Form/InputField';
 import { editFormValidation } from '../../../../helperFunctions/formValidations';
-import { editUserData } from '../../../../actions';
+// import { editUserData } from '../../../../actions';
 import formFields from './formFields';
 
 const EditProfileForm = ({
@@ -64,7 +64,7 @@ export default reduxForm({
   form: 'editProfileForm',
   onSubmit(values, dispatch, props) {
     const id = localStorage.getItem('adminPlantGateId');
-    dispatch(editUserData(values, id));
+    // dispatch(editUserData(values, id));
     props.onClose();
   },
   validate: editFormValidation

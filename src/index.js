@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import axios from 'axios';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import 'semantic-ui-css-rtl/semantic.rtl.css';
 import './css/index.css';
 
+import { firebase } from './firebase/firebase';
 import { storeUser } from './actions';
 import reducers from './reducers';
 import App from './components/App';
@@ -44,21 +44,11 @@ const renderApp = () => {
   }
 };
 
-const isAuth = async () => {
-  try {
-    // const adminId = localStorage.getItem('adminPlantGateId');
-    // if (adminId) {
-    //   const response = await axios.get(
-    //     `${
-    //       process.env.REACT_APP_LOCAL_IP
-    //     }/account/getaccount?accountid=${adminId}`
-    //   );
-    //   store.dispatch(storeUser(response.data));
-    // }
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    store.dispatch(storeUser(user.uid));
     renderApp();
-  } catch (e) {
+  } else {
     renderApp();
   }
-};
-
-isAuth();
+});

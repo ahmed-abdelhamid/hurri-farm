@@ -5,20 +5,26 @@ import { Button, Form, Grid, Image, Message } from 'semantic-ui-react';
 import FormField from './FormField';
 import { login } from '../../../actions';
 
+import logo from '../../../assets/logo.png';
+
 let LoginPage = ({ handleSubmit, error }) => (
   <div className="login-form">
     <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Image centered style={{ padding: '30px 0', width: '200px' }} />
+        <Image
+          src={logo}
+          centered
+          style={{ padding: '30px 0', width: '200px' }}
+        />
         <Form error size="large" onSubmit={handleSubmit}>
           <Field
-            name="mobile"
+            name="email"
             component={FormField}
             type="text"
             fluid
             icon="user"
             iconPosition="left"
-            placeholder="رقم الجوال"
+            placeholder="البريد الإلكترونى"
           />
           <Field
             name="password"
@@ -41,9 +47,9 @@ let LoginPage = ({ handleSubmit, error }) => (
 
 LoginPage = reduxForm({
   form: 'login',
-  async onSubmit({ mobile, password }, dispatch, props) {
+  async onSubmit({ email, password }, dispatch, props) {
     try {
-      await dispatch(login(mobile, password));
+      await dispatch(login(email, password));
       props.history.push('/home');
     } catch (e) {
       throw new SubmissionError({

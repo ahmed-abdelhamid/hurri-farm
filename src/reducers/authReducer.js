@@ -6,12 +6,9 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case STORE_USER:
     case LOGIN:
-      const { accountid, mobile, username } = action.payload;
       return {
-        accountid,
-        mobile,
-        username,
-        isSignedIn: true
+        isSignedIn: true,
+        userId: action.payload
       };
     case LOGOUT:
       return { isSignedIn: false };
