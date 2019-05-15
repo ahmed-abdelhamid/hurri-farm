@@ -1,28 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Table, Message, Button } from 'semantic-ui-react';
-import { getAllOrders } from '../../../actions';
+import { Container, Table, Message, Menu } from 'semantic-ui-react';
+import { getAllOrders, getDeliveryOption } from '../../../actions';
+import { TABLE_HEADERS, MENU_ITEMS } from './fixtures';
+import selectOrders from '../../../helperFunctions/selectors';
 
-const Orders = ({ getAllOrders, orders }) => {
+const Orders = ({ getAllOrders, getDeliveryOption, orders }) => {
+  const [activeItem, setActiveItem] = useState('all');
+
   useEffect(() => {
     const fetchData = () => getAllOrders();
     fetchData();
   }, []);
 
-  const tableHeaders = [
-    'اسم المستخدم',
-    'رقم الجوال',
-    'رقم الطلب',
-    'طريقة التوصيل',
-    'حالة الطلب',
-    'تفاصيل الطلب'
-  ];
+  const handleMenuClick = ({ name }) => {
+    setActiveItem(name);
+    getDeliveryOption(name);
+  };
+
+  const renderMenuItems = () =>
+    MENU_ITEMS.map(({ content, name }, index) => (
+      <Menu.Item
+        style={{ fontSize: '16px' }}
+        key={index}
+        content={content}
+        name={name}
+        active={activeItem === name}
+        onClick={(e, name) => handleMenuClick(name)}
+      />
+    ));
 
   const renderTableHeaders = () =>
-    tableHeaders.map((header, index) => (
+    TABLE_HEADERS.map((header, index) => (
       <Table.HeaderCell key={index}>{header}</Table.HeaderCell>
     ));
+
   const renderTabelRows = () =>
     orders.map(order => (
       <Table.Row key={order.id}>
@@ -54,7 +67,11 @@ const Orders = ({ getAllOrders, orders }) => {
 
   return (
     <Container>
-      <Table striped>
+      <Menu tabular attached>
+        {renderMenuItems()}
+      </Menu>
+
+      <Table striped attached>
         <Table.Header>
           <Table.Row>{renderTableHeaders()}</Table.Row>
         </Table.Header>
@@ -65,10 +82,13 @@ const Orders = ({ getAllOrders, orders }) => {
   );
 };
 
-const mapStateToProps = ({ orders }) => ({ orders });
+const mapStateToProps = ({ orders, filters }) => ({
+  orders: selectOrders(orders, filters)
+});
 
 const mapDispatchToProps = dispatch => ({
-  getAllOrders: () => dispatch(getAllOrders())
+  getAllOrders: () => dispatch(getAllOrders()),
+  getDeliveryOption: option => dispatch(getDeliveryOption(option))
 });
 
 export default connect(

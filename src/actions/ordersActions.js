@@ -2,7 +2,7 @@ import _ from 'lodash';
 import database from '../firebase/firebase';
 import { GET_ALL_ORDERS } from './types';
 
-export const getAllOrders = () => async dispatch => {
+export const getAllOrders = (type = undefined) => async dispatch => {
   await database.ref().on('value', snapshot => {
     const users = [];
     const orders = [];
@@ -11,6 +11,7 @@ export const getAllOrders = () => async dispatch => {
       users.push({ id: childSnapshot.key, ...childSnapshot.val() });
     });
 
+    // eslint-disable-next-line array-callback-return
     users.map(user => {
       if (user.orders) {
         _.map(user.orders, (order, orderId) => {
