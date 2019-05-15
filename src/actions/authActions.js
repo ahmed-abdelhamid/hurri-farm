@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { firebase } from '../firebase/firebase';
 import { LOGIN, LOGOUT, STORE_USER } from './types';
 
@@ -9,7 +8,6 @@ export const login = (email, password) => async dispatch => {
     const response = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-    console.log(response);
     dispatch({ type: LOGIN, payload: response.user.uid });
   } catch (e) {
     throw new Error('Login Failed');

@@ -7,7 +7,9 @@ import { history } from '../../App';
 
 const menuItems = [
   { content: 'الرئيسية', name: 'home' },
-  { content: 'النباتات', name: 'plants' }
+  { content: 'الطلبات', name: 'orders' },
+  { content: 'العملاء', name: 'clients' },
+  { content: 'الشركاء', name: 'partners' }
 ];
 
 const renderMenuItems = (activeItem, setActiveItem) =>
