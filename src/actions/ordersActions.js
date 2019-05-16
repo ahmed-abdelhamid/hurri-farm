@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import database from '../firebase/firebase';
-import { GET_ALL_ORDERS } from './types';
+import { GET_ALL_ORDERS, GET_ORDER_BY_ID } from './types';
 
 export const getAllOrders = (type = undefined) => async dispatch => {
   await database.ref().on('value', snapshot => {
@@ -20,12 +20,21 @@ export const getAllOrders = (type = undefined) => async dispatch => {
             userName: user.userInfo.name,
             userPhoneNumber: user.userInfo.phoneNumber,
             id: orderId,
-            ...order
+            delivery_option: order.delivery_option,
+            order_status: order.order_status
           });
         });
       }
     });
 
     dispatch({ type: GET_ALL_ORDERS, payload: orders });
+  });
+};
+
+export const getOrderById = (orderId, userId) => async dispatch => {
+  await database.ref(`${userId}/orders/${orderId}`).on('value', snapshot => {
+    const order = { id: snapshot.key, ...snapshot.val() };
+
+    dispatch({ type: GET_ORDER_BY_ID, payload: order });
   });
 };

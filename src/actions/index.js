@@ -1,3 +1,3 @@
 export { login, logout, storeUser } from './authActions';
-export { getAllOrders } from './ordersActions';
+export { getAllOrders, getOrderById } from './ordersActions';
 export { getDeliveryOption } from './filtersAction';

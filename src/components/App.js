@@ -18,7 +18,10 @@ export class App extends Component {
           <PublicRoute path="/" component={LoginPage} exact />
           <PrivateRoute path="/home" component={Home} />
           <PrivateRoute path="/orders" component={Orders} exact />
-          <PrivateRoute path="/orders/:id" component={OrderDetail} />
+          <PrivateRoute
+            path="/orders/:orderId/:userId"
+            component={OrderDetail}
+          />
         </div>
       </Router>
     );

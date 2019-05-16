@@ -47,7 +47,9 @@ const Orders = ({ getAllOrders, getDeliveryOption, orders }) => {
         </Table.Cell>
         <Table.Cell>{order.order_status}</Table.Cell>
         <Table.Cell>
-          <Link to={`/orders/${order.id}`}>المزيد من التفاصيل</Link>
+          <Link to={`/orders/${order.id}/${order.userId}`}>
+            المزيد من التفاصيل
+          </Link>
         </Table.Cell>
       </Table.Row>
     ));
@@ -71,7 +73,7 @@ const Orders = ({ getAllOrders, getDeliveryOption, orders }) => {
         {renderMenuItems()}
       </Menu>
 
-      <Table striped attached>
+      <Table striped attached style={{ marginBottom: '30px' }}>
         <Table.Header>
           <Table.Row>{renderTableHeaders()}</Table.Row>
         </Table.Header>
