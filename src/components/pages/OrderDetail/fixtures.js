@@ -6,10 +6,10 @@ export const branchDetailsKeys = [
 ];
 
 export const deliveryDetailsKeys = [
-  'اسم المندوب',
-  'موقع العميل على الخريطة',
-  'تاريخ التوصيل',
-  'وقت التوصيل'
+  { name: 'delivery_person', translate: 'اسم المندوب' },
+  { name: 'location', translate: 'موقع العميل على الخريطة' },
+  { name: 'date', translate: 'تاريخ التوصيل' },
+  { name: 'time', translate: 'وقت التوصيل' }
 ];
 export const orderDetailsKeys = [
   { name: 'id', translate: 'رقم الطلب' },

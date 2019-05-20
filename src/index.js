@@ -23,7 +23,7 @@ const store = createStore(
 const loader = (
   <Dimmer active inverted>
     <Loader inverted size="large">
-      Loading...
+      يرجى الإنتظار
     </Loader>
   </Dimmer>
 );

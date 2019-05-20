@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Table, Message, Menu } from 'semantic-ui-react';
-import { getAllOrders, getDeliveryOption } from '../../../actions';
+import {
+  Container,
+  Table,
+  Message,
+  Menu,
+  Dimmer,
+  Loader
+} from 'semantic-ui-react';
+import { getAllOrders, getDeliveryOption, cleanOrders } from '../../../actions';
 import { TABLE_HEADERS, MENU_ITEMS } from './fixtures';
 import selectOrders from '../../../helperFunctions/selectors';
 
-const Orders = ({ getAllOrders, getDeliveryOption, orders }) => {
+const Orders = ({
+  getAllOrders,
+  getDeliveryOption,
+  cleanOrders,
+  orders,
+  loading
+}) => {
   const [activeItem, setActiveItem] = useState('all');
 
   useEffect(() => {
-    const fetchData = () => getAllOrders();
-    fetchData();
+    getAllOrders();
+
+    return () => cleanOrders();
   }, []);
 
   const handleMenuClick = ({ name }) => {
@@ -54,7 +68,15 @@ const Orders = ({ getAllOrders, getDeliveryOption, orders }) => {
       </Table.Row>
     ));
 
-  if (!orders) {
+  if (loading) {
+    return (
+      <Dimmer active inverted>
+        <Loader size="medium">جارى البحث عن الطلبات الحالية</Loader>
+      </Dimmer>
+    );
+  }
+
+  if (orders.length === 0 && loading === false) {
     return (
       <Container>
         <Message
@@ -84,13 +106,15 @@ const Orders = ({ getAllOrders, getDeliveryOption, orders }) => {
   );
 };
 
-const mapStateToProps = ({ orders, filters }) => ({
-  orders: selectOrders(orders, filters)
+const mapStateToProps = ({ orders, filters, loading }) => ({
+  orders: selectOrders(orders, filters),
+  loading
 });
 
 const mapDispatchToProps = dispatch => ({
   getAllOrders: () => dispatch(getAllOrders()),
-  getDeliveryOption: option => dispatch(getDeliveryOption(option))
+  getDeliveryOption: option => dispatch(getDeliveryOption(option)),
+  cleanOrders: () => dispatch(cleanOrders())
 });
 
 export default connect(

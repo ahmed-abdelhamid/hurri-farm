@@ -1,9 +1,17 @@
 import _ from 'lodash';
 import database from '../firebase/firebase';
-import { GET_ALL_ORDERS, GET_ORDER_BY_ID } from './types';
+import {
+  GET_ALL_ORDERS,
+  GET_ORDER_BY_ID,
+  LOADING,
+  NOT_LOADING,
+  REMOVE_ORDER_DETAIL,
+  CLEAN_ORDERS
+} from './types';
 
-export const getAllOrders = (type = undefined) => async dispatch => {
-  await database.ref().on('value', snapshot => {
+export const getAllOrders = () => dispatch => {
+  dispatch({ type: LOADING });
+  database.ref().on('value', snapshot => {
     const users = [];
     const orders = [];
 
@@ -28,13 +36,18 @@ export const getAllOrders = (type = undefined) => async dispatch => {
     });
 
     dispatch({ type: GET_ALL_ORDERS, payload: orders });
+    dispatch({ type: NOT_LOADING });
   });
 };
 
-export const getOrderById = (orderId, userId) => async dispatch => {
-  await database.ref(`${userId}/orders/${orderId}`).on('value', snapshot => {
+export const getOrderById = (orderId, userId) => dispatch => {
+  database.ref(`${userId}/orders/${orderId}`).on('value', snapshot => {
     const order = { id: snapshot.key, ...snapshot.val() };
 
     dispatch({ type: GET_ORDER_BY_ID, payload: order });
   });
 };
+
+export const removeOrderDetail = () => ({ type: REMOVE_ORDER_DETAIL });
+
+export const cleanOrders = () => ({ type: CLEAN_ORDERS });

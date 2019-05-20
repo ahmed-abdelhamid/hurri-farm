@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Message, Divider, Header } from 'semantic-ui-react';
-import { getOrderById } from '../../../actions';
+import {
+  Container,
+  Message,
+  Divider,
+  Header,
+  Dimmer,
+  Loader
+} from 'semantic-ui-react';
+import { getOrderById, removeOrderDetail } from '../../../actions';
 import DetailsTable from './DetailsTable';
 import {
   branchDetailsKeys,
@@ -10,14 +17,28 @@ import {
   orderedProducts
 } from './fixtures';
 
-const OrderDetail = ({ getOrderById, orderDetail, match }) => {
+const OrderDetail = ({
+  getOrderById,
+  orderDetail,
+  removeOrderDetail,
+  match
+}) => {
   useEffect(() => {
     const { orderId, userId } = match.params;
-    const fetchOrder = () => getOrderById(orderId, userId);
-    fetchOrder();
+    getOrderById(orderId, userId);
+
+    return () => removeOrderDetail();
   }, []);
 
   if (!orderDetail) {
+    return (
+      <Dimmer active inverted>
+        <Loader size="medium">جارى تحضير تفاصيل الطلب</Loader>
+      </Dimmer>
+    );
+  }
+
+  if (!orderDetail.products) {
     return (
       <Container>
         <Message
@@ -31,13 +52,23 @@ const OrderDetail = ({ getOrderById, orderDetail, match }) => {
     );
   }
 
+  const renderDeliveryOptionTable = orderDetail.delivery_option ? (
+    <DetailsTable
+      title="تفاصيل التوصيل"
+      keys={deliveryDetailsKeys}
+      details={orderDetail.delivery_details}
+    />
+  ) : (
+    <DetailsTable
+      title="تفاصيل الفرع"
+      keys={branchDetailsKeys}
+      details={orderDetail.branch_details}
+    />
+  );
+
   return (
     <Container>
-      <DetailsTable
-        title="تفاصيل الفرع"
-        keys={branchDetailsKeys}
-        details={orderDetail.branch_details}
-      />
+      {renderDeliveryOptionTable}
 
       <Divider horizontal section />
       <DetailsTable
@@ -55,10 +86,11 @@ const OrderDetail = ({ getOrderById, orderDetail, match }) => {
   );
 };
 
-const mapStateToProps = ({ orders }) => ({ orderDetail: orders[0] });
+const mapStateToProps = ({ orderDetail }) => ({ orderDetail });
 
 const mapDispatchToProps = dispatch => ({
-  getOrderById: (orderId, userId) => dispatch(getOrderById(orderId, userId))
+  getOrderById: (orderId, userId) => dispatch(getOrderById(orderId, userId)),
+  removeOrderDetail: () => dispatch(removeOrderDetail())
 });
 
 export default connect(

@@ -2,6 +2,26 @@ import React from 'react';
 import { Header, Table } from 'semantic-ui-react';
 
 const DetailsTable = ({ title, keys, details }) => {
+  keys.forEach(key => {
+    if (key.name === 'delivery_option') {
+      details.delivery_option = details.delivery_option
+        ? 'التوصيل عن طريق المندوب'
+        : 'الإستلام من الفرع';
+    }
+
+    if (key.name === 'delivery_person') {
+      details.delivery_person = details.delivery_person.name;
+    }
+
+    if (details[key.name] === true) {
+      details[key.name] = 'نعم';
+    }
+
+    if (details[key.name] === false) {
+      details[key.name] = 'لا';
+    }
+  });
+
   return (
     <div>
       {title && <Header as="h2" content={title} />}

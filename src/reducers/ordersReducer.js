@@ -1,11 +1,11 @@
-import { GET_ALL_ORDERS, GET_ORDER_BY_ID } from '../actions/types';
+import { GET_ALL_ORDERS, CLEAN_ORDERS } from '../actions/types';
 
 export default (state = [], action) => {
   switch (action.type) {
     case GET_ALL_ORDERS:
       return [...action.payload];
-    case GET_ORDER_BY_ID:
-      return [action.payload];
+    case CLEAN_ORDERS:
+      return [];
     default:
       return state;
   }
