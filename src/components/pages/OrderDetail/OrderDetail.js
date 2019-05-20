@@ -76,12 +76,15 @@ const OrderDetail = ({
         keys={orderDetailsKeys}
         details={orderDetail}
       />
+
       <Divider horizontal section />
       <Header as="h2" content="المنتجات المطلوبة" />
       {orderDetail.products.map((product, index) => (
-        <DetailsTable key={index} keys={orderedProducts} details={product} />
+        <React.Fragment key={index}>
+          <DetailsTable keys={orderedProducts} details={product} />
+          <Divider horizontal section />
+        </React.Fragment>
       ))}
-      <Divider horizontal section />
     </Container>
   );
 };
