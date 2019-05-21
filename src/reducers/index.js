@@ -5,6 +5,7 @@ import ordersReducer from './ordersReducer';
 import filtersReducer from './filtersReducer';
 import orderDetailReducer from './orderDetailRducer';
 import loadingReducer from './loadingReducer';
+import clientsReducer from './clientsReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   orders: ordersReducer,
   orderDetail: orderDetailReducer,
   filters: filtersReducer,
-  loading: loadingReducer
+  loading: loadingReducer,
+  clients: clientsReducer
 });

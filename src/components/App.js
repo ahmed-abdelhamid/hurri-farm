@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import Home from './pages/Home/Home';
 import Orders from './pages/Orders/Orders';
 import OrderDetail from './pages/OrderDetail/OrderDetail';
+import Clients from './pages/Clients/Clients';
 
 export const history = createBrowserHistory();
 
@@ -22,6 +23,7 @@ export class App extends Component {
             path="/orders/:orderId/:userId"
             component={OrderDetail}
           />
+          <PrivateRoute path="/clients" component={Clients} />
         </div>
       </Router>
     );

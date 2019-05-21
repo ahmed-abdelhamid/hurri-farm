@@ -95,7 +95,7 @@ const Orders = ({
         {renderMenuItems()}
       </Menu>
 
-      <Table striped attached style={{ marginBottom: '30px' }}>
+      <Table striped attached style={{ marginBottom: '50px' }}>
         <Table.Header>
           <Table.Row>{renderTableHeaders()}</Table.Row>
         </Table.Header>

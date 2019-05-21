@@ -6,3 +6,4 @@ export {
   cleanOrders
 } from './ordersActions';
 export { getDeliveryOption } from './filtersAction';
+export { getAllClients, clearClients } from './clientsActions';

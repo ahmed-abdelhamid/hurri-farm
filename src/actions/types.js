@@ -9,6 +9,10 @@ export const CLEAN_ORDERS = 'CLEAN_ORDERS';
 export const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID';
 export const REMOVE_ORDER_DETAIL = 'REMOVE_ORDER_DETAIL';
 
+// CLients Type
+export const GET_ALL_CLIENTS = 'GET_ALL_CLIENTS';
+export const CLEAR_CLIENTS = 'CLEAR_CLIENTS';
+
 // Filters Types
 export const ALL = 'ALL';
 export const DELIVERY_ONLY = 'DELIVERY_ONLY';
