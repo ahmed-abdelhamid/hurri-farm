@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Container, Table, Message, Dimmer, Loader } from 'semantic-ui-react';
 import { getAllClients, clearClients } from '../../../actions';
 import { TABLE_HEADERS } from './fixtures';
@@ -22,7 +21,13 @@ const Orders = ({ clients, getAllClients, clearClients }) => {
       <Table.Row key={client.id}>
         <Table.Cell>{client.name}</Table.Cell>
         <Table.Cell>{client.phoneNumber}</Table.Cell>
-        <Table.Cell />
+        {client.location ? (
+          <Table.Cell>{`( ${client.location.x}, ${
+            client.location.y
+          } )`}</Table.Cell>
+        ) : (
+          <Table.Cell>غير معروف</Table.Cell>
+        )}
       </Table.Row>
     ));
 
