@@ -1,4 +1,4 @@
-import { firebase } from '../firebase/firebase';
+import database, { firebase } from '../firebase/firebase';
 import { LOGIN, LOGOUT, STORE_USER } from './types';
 
 export const storeUser = userId => ({ type: STORE_USER, payload: userId });
@@ -8,6 +8,10 @@ export const login = (email, password) => async dispatch => {
     const response = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
+    const snapshot = await database.ref(`${response.user.uid}`).once('value');
+    if (!snapshot.val() || !snapshot.val().userInfo.isAdmin) {
+      throw new Error();
+    }
     dispatch({ type: LOGIN, payload: response.user.uid });
   } catch (e) {
     throw new Error('Login Failed');

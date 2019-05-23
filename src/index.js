@@ -7,7 +7,7 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 import 'semantic-ui-css-rtl/semantic.rtl.css';
 import './css/index.css';
 
-import { firebase } from './firebase/firebase';
+import database, { firebase } from './firebase/firebase';
 import { storeUser } from './actions';
 import reducers from './reducers';
 import App from './components/App';
@@ -44,9 +44,12 @@ const renderApp = () => {
   }
 };
 
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged(async user => {
   if (user) {
-    store.dispatch(storeUser(user.uid));
+    const snapshot = await database.ref(`${user.uid}`).once('value');
+    if (snapshot.val() && snapshot.val().userInfo.isAdmin) {
+      store.dispatch(storeUser(user.uid));
+    }
     renderApp();
   } else {
     renderApp();
