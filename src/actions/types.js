@@ -13,6 +13,11 @@ export const REMOVE_ORDER_DETAIL = 'REMOVE_ORDER_DETAIL';
 export const GET_ALL_CLIENTS = 'GET_ALL_CLIENTS';
 export const CLEAR_CLIENTS = 'CLEAR_CLIENTS';
 
+//Products Type
+export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
+export const CLEAN_PRODUCTS = 'CLEAN_PRODUCTS';
+export const EDIT_PRODUCT_PRICE = 'EDIT_PRODUCT_PRICE';
+
 // Filters Types
 export const ALL = 'ALL';
 export const DELIVERY_ONLY = 'DELIVERY_ONLY';

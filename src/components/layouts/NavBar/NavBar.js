@@ -9,6 +9,7 @@ const menuItems = [
   { content: 'الرئيسية', name: 'home' },
   { content: 'الطلبات', name: 'orders' },
   { content: 'العملاء', name: 'clients' },
+  { content: 'المنتجات', name: 'products' },
   { content: 'الشركاء', name: 'partners' }
 ];
 

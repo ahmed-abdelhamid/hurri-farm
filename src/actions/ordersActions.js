@@ -11,7 +11,7 @@ import {
 
 export const getAllOrders = () => dispatch => {
   dispatch({ type: LOADING });
-  database.ref().on('value', snapshot => {
+  database.ref('/users').on('value', snapshot => {
     const users = [];
     const orders = [];
 
@@ -41,7 +41,7 @@ export const getAllOrders = () => dispatch => {
 };
 
 export const getOrderById = (orderId, userId) => dispatch => {
-  database.ref(`${userId}/orders/${orderId}`).on('value', snapshot => {
+  database.ref(`/users/${userId}/orders/${orderId}`).on('value', snapshot => {
     const order = { id: snapshot.key, ...snapshot.val() };
 
     dispatch({ type: GET_ORDER_BY_ID, payload: order });

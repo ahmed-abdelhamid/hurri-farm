@@ -7,3 +7,8 @@ export {
 } from './ordersActions';
 export { getDeliveryOption } from './filtersAction';
 export { getAllClients, clearClients } from './clientsActions';
+export {
+  getAllProducts,
+  cleanProducts,
+  editProductPrice
+} from './productsActions';

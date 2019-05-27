@@ -8,6 +8,7 @@ import Home from './pages/Home/Home';
 import Orders from './pages/Orders/Orders';
 import OrderDetail from './pages/OrderDetail/OrderDetail';
 import Clients from './pages/Clients/Clients';
+import Products from './pages/Products/Products';
 
 export const history = createBrowserHistory();
 
@@ -24,6 +25,7 @@ export class App extends Component {
             component={OrderDetail}
           />
           <PrivateRoute path="/clients" component={Clients} />
+          <PrivateRoute path="/products" component={Products} />
         </div>
       </Router>
     );

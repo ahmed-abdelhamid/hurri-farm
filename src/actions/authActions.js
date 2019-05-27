@@ -8,7 +8,9 @@ export const login = (email, password) => async dispatch => {
     const response = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-    const snapshot = await database.ref(`${response.user.uid}`).once('value');
+    const snapshot = await database
+      .ref(`/users/${response.user.uid}`)
+      .once('value');
     if (!snapshot.val() || !snapshot.val().userInfo.isAdmin) {
       throw new Error();
     }
