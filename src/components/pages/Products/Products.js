@@ -6,7 +6,8 @@ import {
   Message,
   Dimmer,
   Loader,
-  Input
+  Input,
+  FormField
 } from 'semantic-ui-react';
 import {
   getAllProducts,
@@ -23,6 +24,7 @@ const Products = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [activeInput, setActiveInput] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     getAllProducts();
@@ -31,8 +33,27 @@ const Products = ({
   }, []);
 
   const handleClick = (id, price) => {
-    editProductPrice(id, parseInt(price));
+    try {
+      const priceInt = parseInt(price);
+      if (isNaN(priceInt)) {
+        throw new Error();
+      }
+      editProductPrice(id, price);
+      setInputValue('');
+    } catch (e) {
+      setError('يرجى تحديد سعر المنتج');
+    }
+  };
+
+  const handleInputFocus = id => {
+    setActiveInput(id);
+    setError('');
     setInputValue('');
+  };
+
+  const handleChange = value => {
+    setError('');
+    setInputValue(value);
   };
 
   const renderTableHeaders = () =>
@@ -46,21 +67,27 @@ const Products = ({
         <Table.Cell>{product.arabicName}</Table.Cell>
         <Table.Cell>{`${product.price} ريال سعودى`}</Table.Cell>
         <Table.Cell>
-          <Input
-            action={{
-              color: 'teal',
-              labelPosition: 'left',
-              icon: 'edit',
-              content: 'تعديل السعر',
-              onClick: () => handleClick(product.id, inputValue)
-            }}
-            fluid
-            type="number"
-            placeholder="تغيير السعر"
-            value={product.id === activeInput ? inputValue : ''}
-            onFocus={() => setActiveInput(product.id)}
-            onChange={(e, data) => setInputValue(data.value)}
-          />
+          <FormField inline>
+            <Input
+              action={{
+                color: 'teal',
+                labelPosition: 'left',
+                icon: 'edit',
+                content: 'تعديل السعر',
+                onClick: () => handleClick(product.id, inputValue)
+              }}
+              fluid
+              type="number"
+              placeholder="تغيير السعر"
+              error={error && product.id === activeInput ? true : false}
+              value={product.id === activeInput ? inputValue : ''}
+              onFocus={() => handleInputFocus(product.id)}
+              onChange={(e, data) => handleChange(data.value)}
+            />
+          </FormField>
+          {error && product.id === activeInput && (
+            <Message error content={error} />
+          )}
         </Table.Cell>
       </Table.Row>
     ));
