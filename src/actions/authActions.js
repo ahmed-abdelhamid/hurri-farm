@@ -1,7 +1,10 @@
 import database, { firebase } from '../firebase/firebase';
 import { LOGIN, LOGOUT, STORE_USER } from './types';
 
-export const storeUser = userId => ({ type: STORE_USER, payload: userId });
+export const storeUser = (userId, role) => ({
+  type: STORE_USER,
+  payload: { userId, role }
+});
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -14,7 +17,11 @@ export const login = (email, password) => async dispatch => {
     if (!snapshot.val() || !snapshot.val().userInfo.isAdmin) {
       throw new Error();
     }
-    dispatch({ type: LOGIN, payload: response.user.uid });
+
+    dispatch({
+      type: LOGIN,
+      payload: { userId: response.user.uid, role: snapshot.val().userInfo.role }
+    });
   } catch (e) {
     throw new Error('Login Failed');
   }

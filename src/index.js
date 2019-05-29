@@ -48,7 +48,7 @@ firebase.auth().onAuthStateChanged(async user => {
   if (user) {
     const snapshot = await database.ref(`/users/${user.uid}`).once('value');
     if (snapshot.val() && snapshot.val().userInfo.isAdmin) {
-      store.dispatch(storeUser(user.uid));
+      store.dispatch(storeUser(user.uid, snapshot.val().userInfo.role));
     }
     renderApp();
   } else {

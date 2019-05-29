@@ -8,7 +8,7 @@ export default (state = initialState, action) => {
     case LOGIN:
       return {
         isSignedIn: true,
-        userId: action.payload
+        ...action.payload
       };
     case LOGOUT:
       return { isSignedIn: false };

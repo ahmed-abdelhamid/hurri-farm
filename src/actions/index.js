@@ -13,3 +13,4 @@ export {
   cleanProducts,
   editProductPrice
 } from './productsActions';
+export { loading, notLoading } from './loadingActions';
