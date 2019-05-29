@@ -8,6 +8,7 @@ export const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 export const CLEAN_ORDERS = 'CLEAN_ORDERS';
 export const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID';
 export const REMOVE_ORDER_DETAIL = 'REMOVE_ORDER_DETAIL';
+export const UPDATE_ORDER_STATE = 'UPDATE_ORDER_STATE';
 
 // CLients Type
 export const GET_ALL_CLIENTS = 'GET_ALL_CLIENTS';

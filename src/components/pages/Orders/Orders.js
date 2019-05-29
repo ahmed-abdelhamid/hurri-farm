@@ -12,6 +12,7 @@ import {
 import { getAllOrders, getDeliveryOption, cleanOrders } from '../../../actions';
 import { TABLE_HEADERS, MENU_ITEMS } from './fixtures';
 import selectOrders from '../../../helperFunctions/selectors';
+import OrderState from '../../layouts/OrderState/OrderState';
 
 const Orders = ({
   getAllOrders,
@@ -59,7 +60,9 @@ const Orders = ({
         <Table.Cell>
           {order.delivery_option ? 'التوصيل عن طريق مندوب' : 'استلام من الفرع'}
         </Table.Cell>
-        <Table.Cell>{order.order_status}</Table.Cell>
+        <Table.Cell>
+          <OrderState order={order} />
+        </Table.Cell>
         <Table.Cell>
           <Link to={`/orders/${order.id}/${order.userId}`}>
             المزيد من التفاصيل

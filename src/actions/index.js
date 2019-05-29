@@ -3,7 +3,8 @@ export {
   getAllOrders,
   getOrderById,
   removeOrderDetail,
-  cleanOrders
+  cleanOrders,
+  updateOrderState
 } from './ordersActions';
 export { getDeliveryOption } from './filtersAction';
 export { getAllClients, clearClients } from './clientsActions';

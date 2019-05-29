@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header, Table } from 'semantic-ui-react';
+import OrderState from '../../layouts/OrderState/OrderState';
 
 const DetailsTable = ({ title, keys, details }) => {
   keys.forEach(key => {
@@ -11,6 +12,12 @@ const DetailsTable = ({ title, keys, details }) => {
 
     if (key.name === 'delivery_person') {
       details.delivery_person = details.delivery_person.name;
+    }
+
+    if (key.name === 'order_status') {
+      const { delivery_option, id, order_status, userId } = details;
+      const order = { delivery_option, id, order_status, userId };
+      details.order_status = <OrderState order={order} />;
     }
 
     if (details[key.name] === true) {

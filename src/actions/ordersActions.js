@@ -42,10 +42,48 @@ export const getAllOrders = () => dispatch => {
 
 export const getOrderById = (orderId, userId) => dispatch => {
   database.ref(`/users/${userId}/orders/${orderId}`).on('value', snapshot => {
-    const order = { id: snapshot.key, ...snapshot.val() };
+    const order = { id: snapshot.key, userId, ...snapshot.val() };
 
     dispatch({ type: GET_ORDER_BY_ID, payload: order });
   });
+};
+
+export const updateOrderState = ({
+  order_status,
+  userId,
+  id,
+  delivery_option
+}) => async dispatch => {
+  let nextState;
+  switch (order_status) {
+    case 'قيد المراجعة':
+      nextState = 'قيد التنفيذ';
+      break;
+    case 'قيد التنفيذ':
+      nextState = 'جارى التجهيز';
+      break;
+    case 'جارى التجهيز':
+      if (delivery_option) {
+        nextState = 'جارى التوصيل';
+      } else {
+        nextState = 'جاهز للاستلام';
+      }
+      break;
+    case 'جاهز للاستلام':
+      nextState = 'تم الاستلام';
+      break;
+    case 'جارى التوصيل':
+      nextState = 'تم التوصيل';
+      break;
+    default:
+      nextState = 'قيد المراجعة';
+  }
+
+  try {
+    await database
+      .ref(`users/${userId}/orders/${id}`)
+      .update({ order_status: nextState });
+  } catch (e) {}
 };
 
 export const removeOrderDetail = () => ({ type: REMOVE_ORDER_DETAIL });

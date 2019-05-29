@@ -21,9 +21,7 @@ export const getAllProducts = () => dispatch => {
 export const editProductPrice = (id, price) => async dispatch => {
   try {
     await database.ref(`/products/${id}`).update({ price });
-  } catch (e) {
-    alert('يرجى تحديد السعر');
-  }
+  } catch (e) {}
 };
 
 export const cleanProducts = () => ({ type: CLEAN_PRODUCTS });
