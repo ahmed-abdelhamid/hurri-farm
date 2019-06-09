@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import AdminRoute from './routes/AdminRoute';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -24,8 +25,8 @@ export class App extends Component {
             path="/orders/:orderId/:userId"
             component={OrderDetail}
           />
-          <PrivateRoute path="/clients" component={Clients} />
-          <PrivateRoute path="/products" component={Products} />
+          <AdminRoute path="/clients" component={Clients} />
+          <AdminRoute path="/products" component={Products} />
         </div>
       </Router>
     );

@@ -4,31 +4,25 @@ import { NavLink } from 'react-router-dom';
 import { Menu, Button, Icon } from 'semantic-ui-react';
 import { logout } from '../../../actions';
 import { history } from '../../App';
+import { ADMIN_MENU_ITEMS, PRIVATE_MENU_ITEMS } from './fixtures';
 
-const menuItems = [
-  { content: 'الرئيسية', name: 'home' },
-  { content: 'الطلبات', name: 'orders' },
-  { content: 'العملاء', name: 'clients' },
-  { content: 'المنتجات', name: 'products' },
-  { content: 'الشركاء', name: 'partners' }
-];
-
-const renderMenuItems = (activeItem, setActiveItem) =>
-  menuItems.map(({ content, name }, index) => (
-    <Menu.Item
-      style={{ fontSize: '16px' }}
-      as={NavLink}
-      to={`/${name}`}
-      key={index}
-      content={content}
-      name={name}
-      active={activeItem === name}
-      onClick={() => setActiveItem(name)}
-    />
-  ));
-
-const Header = ({ name, logout }) => {
+const Header = ({ role, logout }) => {
   const [activeItem, setActiveItem] = useState(null);
+  const menuItems = role === 'admin' ? ADMIN_MENU_ITEMS : PRIVATE_MENU_ITEMS;
+
+  const renderMenuItems = (activeItem, setActiveItem) =>
+    menuItems.map(({ content, name }, index) => (
+      <Menu.Item
+        style={{ fontSize: '16px' }}
+        as={NavLink}
+        to={`/${name}`}
+        key={index}
+        content={content}
+        name={name}
+        active={activeItem === name}
+        onClick={() => setActiveItem(name)}
+      />
+    ));
 
   const handleLogout = async () => {
     try {
@@ -39,10 +33,6 @@ const Header = ({ name, logout }) => {
 
   return (
     <Menu size="small" inverted>
-      <Menu.Item className="text-center">
-        <Menu.Header content={name} />
-      </Menu.Item>
-
       {renderMenuItems(activeItem, setActiveItem)}
 
       <Menu.Menu position="right">
@@ -58,7 +48,7 @@ const Header = ({ name, logout }) => {
 };
 
 const mapStateToProps = ({ auth }) => ({
-  name: auth.username
+  role: auth.role
 });
 
 const mapDispatchToProps = dispatch => ({
