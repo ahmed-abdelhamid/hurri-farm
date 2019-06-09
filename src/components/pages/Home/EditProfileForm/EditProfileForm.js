@@ -78,11 +78,20 @@ EditProfileForm = reduxForm({
   form: 'editProfileForm',
   async onSubmit(values, dispatch, props) {
     try {
+      const initialValues = {
+        displayName: values.displayName,
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        oldPassword: '',
+        newPassword: '',
+        repassword: ''
+      };
       const id = props.adminData.userId;
       dispatch(loading());
       await dispatch(editUserData(values, id));
       dispatch(notLoading());
       props.onClose();
+      dispatch(initialize('editProfileForm', initialValues));
     } catch (e) {
       dispatch(notLoading());
       if (e.message === 'wrong-password') {
