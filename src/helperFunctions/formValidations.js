@@ -2,62 +2,41 @@ import validator from 'validator';
 
 // ADMIN FORM VALIDATION
 export const editFormValidation = ({
-  username,
-  mobile,
-  password,
+  displayName,
+  phoneNumber,
+  email,
+  oldPassword,
+  newPassword,
   repassword
 }) => {
   const errors = {};
 
-  if (!username) {
-    errors.username = 'حقل إلزامى';
+  if (!displayName) {
+    errors.displayName = 'يرجى إدخال اسم المستخدم';
   }
 
-  if (!mobile) {
-    errors.mobile = 'يرجى إدخال رقم الهاتف';
+  if (!phoneNumber) {
+    errors.phoneNumber = 'يرجى إدخال رقم الهاتف';
   }
 
-  if (mobile && !validator.isMobilePhone(mobile, 'ar-SA')) {
-    errors.mobile = ' رقم الجوال يجب ان يبدا بـ 05 ومكون من 10 أرقام';
+  if (phoneNumber && !validator.isMobilePhone(phoneNumber, 'ar-SA')) {
+    errors.phoneNumber = ' رقم الجوال يجب ان يبدا بـ 05 ومكون من 10 أرقام';
   }
 
-  if (password && password !== repassword) {
+  if (!email) {
+    errors.email = 'يرجى إدخال البريد الإلكترونى';
+  }
+
+  if (email && !validator.isEmail(email)) {
+    errors.email = 'بريدك الإلكترونى غير صحيح';
+  }
+
+  if (!oldPassword) {
+    errors.oldPassword = 'لتعديل البيانات يجب إدخال كلمة المرور الحالية';
+  }
+
+  if (newPassword && newPassword !== repassword) {
     errors.repassword = 'إعادة كلمة المرور لا تتطابق مع كلمة المرور';
-  }
-
-  return errors;
-};
-
-// PLANTS FORM VALIDATION
-export const plantsFormValidation = (values, { type }) => {
-  const errors = {};
-
-  if (!values.name) {
-    errors.name = 'يرجى إدخال اسم النبات';
-  }
-
-  if (!values.sicName) {
-    errors.sicName = 'يرجى إدخال الاسم العلمى للنبات';
-  }
-
-  if (!values.type) {
-    errors.type = 'يرجى إدخال نوع النبات';
-  }
-
-  if (!values.desecration) {
-    errors.desecration = 'يرجى إدخال وصف النبات';
-  }
-
-  if (!values.longitude) {
-    errors.longitude = 'يرجى ادخال خط الطول';
-  }
-
-  if (!values.latitude) {
-    errors.latitude = 'يرجى ادخال خط العرض';
-  }
-
-  if (!values.image && type === 'add') {
-    errors.image = 'يرجى إرفاق صورة للنبات';
   }
 
   return errors;

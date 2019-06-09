@@ -1,20 +1,31 @@
 import React, { useEffect } from 'react';
-import { Field, reduxForm, submit, initialize } from 'redux-form';
-import { Modal, Form, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import {
+  Field,
+  reduxForm,
+  submit,
+  initialize,
+  SubmissionError
+} from 'redux-form';
+import { Modal, Form, Button, Message } from 'semantic-ui-react';
 import InputField from '../../../layouts/Form/InputField';
 import { editFormValidation } from '../../../../helperFunctions/formValidations';
-// import { editUserData } from '../../../../actions';
+import { editUserData, loading, notLoading } from '../../../../actions';
 import formFields from './formFields';
 
-const EditProfileForm = ({
+let EditProfileForm = ({
   open,
   onClose,
   handleSubmit,
   dispatch,
-  adminData: { username, mobile }
+  error,
+  loading,
+  adminData: { displayName, phoneNumber, email }
 }) => {
   useEffect(() => {
-    dispatch(initialize('editProfileForm', { username, mobile }));
+    dispatch(
+      initialize('editProfileForm', { displayName, phoneNumber, email })
+    );
   }, []);
 
   const renderFields = () =>
@@ -35,6 +46,7 @@ const EditProfileForm = ({
       <Modal.Content>
         <Form onSubmit={handleSubmit} error>
           {renderFields()}
+          <Message error content={error} />
         </Form>
       </Modal.Content>
       <Modal.Actions>
@@ -47,6 +59,8 @@ const EditProfileForm = ({
           onClick={() => {
             dispatch(submit('editProfileForm'));
           }}
+          loading={loading}
+          disabled={loading}
         />
         <Button
           negative
@@ -60,12 +74,31 @@ const EditProfileForm = ({
   );
 };
 
-export default reduxForm({
+EditProfileForm = reduxForm({
   form: 'editProfileForm',
-  onSubmit(values, dispatch, props) {
-    const id = localStorage.getItem('adminPlantGateId');
-    // dispatch(editUserData(values, id));
-    props.onClose();
+  async onSubmit(values, dispatch, props) {
+    try {
+      const id = props.adminData.userId;
+      dispatch(loading());
+      await dispatch(editUserData(values, id));
+      dispatch(notLoading());
+      props.onClose();
+    } catch (e) {
+      dispatch(notLoading());
+      if (e.message === 'wrong-password') {
+        throw new SubmissionError({
+          _error: 'كلمة المرور غير صحيحة'
+        });
+      } else if (e.message === 'email-already-in-use') {
+        throw new SubmissionError({
+          _error: 'البريد الالكترونى مستخدم من قبل'
+        });
+      }
+    }
   },
   validate: editFormValidation
 })(EditProfileForm);
+
+const mapStateToProps = ({ loading }) => ({ loading });
+
+export default connect(mapStateToProps)(EditProfileForm);

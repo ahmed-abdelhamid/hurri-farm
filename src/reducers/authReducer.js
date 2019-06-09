@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, STORE_USER } from '../actions/types';
+import { LOGIN, LOGOUT, STORE_USER, EDIT_USER } from '../actions/types';
 
 const initialState = { isSignedIn: false };
 
@@ -8,6 +8,11 @@ export default (state = initialState, action) => {
     case LOGIN:
       return {
         isSignedIn: true,
+        ...action.payload
+      };
+    case EDIT_USER:
+      return {
+        ...state,
         ...action.payload
       };
     case LOGOUT:

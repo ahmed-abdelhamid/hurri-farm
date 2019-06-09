@@ -38,7 +38,7 @@ const Products = ({
       if (isNaN(priceInt)) {
         throw new Error();
       }
-      editProductPrice(id, price);
+      editProductPrice(id, priceInt);
       setInputValue('');
     } catch (e) {
       setError('يرجى تحديد سعر المنتج');

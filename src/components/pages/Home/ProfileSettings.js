@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Segment, Header, List, Button, Icon } from 'semantic-ui-react';
+import {
+  Segment,
+  Header,
+  List,
+  Button,
+  Icon,
+  Message
+} from 'semantic-ui-react';
 
 import EditProfileForm from './EditProfileForm/EditProfileForm';
 
@@ -20,16 +27,23 @@ const ProfileSettings = ({ adminData }) => {
           <List.Item>
             <List.Content>
               <List.Icon name="user" color="grey" />
-              اسم المستخدم: {`${adminData.username}`}
+              اسم المستخدم: {`${adminData.displayName || 'غير معروف'}`}
             </List.Content>
           </List.Item>
           <List.Item>
             <List.Content>
               <List.Icon name="mobile" color="grey" />
-              رقم الجوال: {adminData.mobile}
+              رقم الجوال: {adminData.phoneNumber || 'غير معروف'}
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content>
+              <List.Icon name="mail" color="grey" />
+              البريد الإلكترونى: {adminData.email || 'غير معروف'}
             </List.Content>
           </List.Item>
         </List>
+        {(!adminData.phoneNumber || !adminData.displayName) && <Message content="بياناتك الشخصية غير مكتملة ،يرجى تحديث بياناتك الشخصية وذلك بالضغط على إعدادات الحساب" /> }
         <Button
           primary
           icon
